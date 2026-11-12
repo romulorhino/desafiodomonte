@@ -328,6 +328,51 @@
       .video-with-photo .video-background-photo { object-position: center 29%; }
       .video-with-photo::before { background: #080e1bc7; }
     }
+/* VSL CLEAN — DESAFIO DO MONTE */
+
+.video-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  margin: 26px auto 16px;
+  background: #08132b;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.video-frame .vsl-capa {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: #08132b;
+  cursor: pointer;
+  display: block;
+}
+
+.video-frame .vsl-capa img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s ease;
+}
+
+.video-frame .vsl-capa:hover img {
+  transform: scale(1.015);
+}
+
+.video-frame .vsl-capa:focus-visible {
+  outline: 3px solid #85b8ff;
+  outline-offset: -3px;
+}
+
+/* Esconde o texto técnico abaixo do vídeo */
+.video-bottom {
+  display: none;
+}
+
   </style>
 </head>
 <body>
@@ -579,7 +624,7 @@
        3. Confira prazo de acesso, suporte, reembolso e formas de pagamento.
        ================================================================ */
     const CHECKOUT_URL = "https://chk.eduzz.com/Q9N21KE101";
-    const VIDEO_EMBED_URL = "https://www.youtube.com/embed/ZEtZrhmtVgk";
+    const VIDEO_EMBED_URL = "";
 
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -646,5 +691,42 @@
       }
     });
   </script>
+<script>
+(() => {
+  const frame = document.getElementById("video-frame");
+  if (!frame) return;
+
+  const botao = document.createElement("button");
+  botao.type = "button";
+  botao.className = "vsl-capa";
+  botao.setAttribute(
+    "aria-label",
+    "Assistir à apresentação do Desafio do Monte"
+  );
+
+  const imagem = document.createElement("img");
+  imagem.src = "/capa-vsl.jpg";
+  imagem.alt = "Desafio do Monte - Assista à apresentação";
+  imagem.loading = "lazy";
+
+  botao.appendChild(imagem);
+  frame.replaceChildren(botao);
+
+  botao.addEventListener("click", () => {
+    const iframe = document.createElement("iframe");
+
+    iframe.src =
+      "https://www.youtube-nocookie.com/embed/ZEtZrhmtVgk?autoplay=1&rel=0&playsinline=1";
+
+    iframe.title = "Apresentação do Desafio do Monte";
+    iframe.allow =
+      "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+
+    frame.replaceChildren(iframe);
+  });
+})();
+</script>
+
 </body>
 </html>
